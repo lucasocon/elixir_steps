@@ -29,6 +29,7 @@ defmodule Sample.Enum do
   def length([_ | tail]),
     do: 1 + length(tail)
 
+  # tail recursion
   def other_length([_ | tail]),
     do: other_length(tail, 1)
   def other_length([], len),
@@ -36,6 +37,14 @@ defmodule Sample.Enum do
   def other_length([_ | tail], len),
     do: other_length(tail, len + 1)
 
+  def reverse(l),
+    do: reverse(l, [])
+  def reverse([], reversed),
+    do: reversed
+  def reverse([head | tail], reversed),
+    do: reverse(tail, [head | reversed])
+
+  # map version with tail recursiom
   def other_map([head | tail], f),
     do: other_map(tail, f, [f.(head)])
   def other_map([], _, result),
