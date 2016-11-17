@@ -1,4 +1,5 @@
 defmodule Sample.Enum do
+  import Kernel, except: [length: 1]
 
   # matching
   #def first(list) when length(list) == 0, do: nil
@@ -16,4 +17,29 @@ defmodule Sample.Enum do
   defp trace(string) do
     IO.puts("The value passed was #{string}")
   end
+
+  # recursion
+  def map([], _), do: []
+  def map([hd | tl], f) do
+    [f.(hd) | map(tl, f)]
+  end
+
+  # body recursion
+  def length([]), do: 0
+  def length([_ | tail]),
+    do: 1 + length(tail)
+
+  def other_length([_ | tail]),
+    do: other_length(tail, 1)
+  def other_length([], len),
+    do: len
+  def other_length([_ | tail], len),
+    do: other_length(tail, len + 1)
+
+  def other_map([head | tail], f),
+    do: other_map(tail, f, [f.(head)])
+  def other_map([], _, result),
+    do: result
+  def other_map([head | tail], f, result),
+    do: other_map(tail, f, [f.(head) | result])
 end
